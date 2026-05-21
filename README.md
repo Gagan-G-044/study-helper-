@@ -16,7 +16,7 @@
 ## 🌐 Live Demo
 
 👉 Try it here:  
-**[https://study-helper-.onrender.com/](https://study-helper-.onrender.com/)**
+**[[https://study-helper-.onrender.com/](https://study-helper-.onrender.com/)](https://study-helper-qhyx.onrender.com)**
 
 ---
 
