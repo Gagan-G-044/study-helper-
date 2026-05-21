@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Dynamically mapped variables inside Tailwind */
+  --color-theme-bg-primary: var(--bg-primary);
+  --color-theme-bg-secondary: var(--bg-secondary);
+  --color-theme-bg-tertiary: var(--bg-tertiary);
+  --color-theme-text-primary: var(--text-primary);
+  --color-theme-text-secondary: var(--text-secondary);
+  --color-theme-accent-gold: var(--accent-gold);
+  --color-theme-accent-cyan: var(--accent-cyan);
+  --color-theme-accent-emerald: var(--accent-emerald);
+  --color-border-subtle: var(--border-subtle);
+}
+
+:root {
+  /* Default: Dark Mode */
+  --bg-primary: #0B0F14;
+  --bg-secondary: #111418;
+  --bg-tertiary: #161B22;
+  --text-primary: #F5F2EA;
+  --text-secondary: #A1A1AA;
+  --accent-gold: #C6A769;
+  --accent-cyan: #8FBFC9;
+  --accent-emerald: #5C8A73;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --glass-background: rgba(17, 20, 24, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-gold-background: rgba(17, 20, 24, 0.75);
+  --glass-gold-border: rgba(198, 167, 105, 0.15);
+  --glow-opacity: 1;
+}
+
+.theme-reading {
+  /* Reading Mode */
+  --bg-primary: #F4EFE6;
+  --bg-secondary: #EFEAE0;
+  --bg-tertiary: #E9E3D8;
+  --text-primary: #2A241F;
+  --text-secondary: #5C534C;
+  --accent-gold: #A67C52;
+  --accent-cyan: #4E7880;
+  --accent-emerald: #3D5F4E;
+  --border-subtle: rgba(42, 36, 31, 0.1);
+  --glass-background: rgba(255, 253, 248, 0.75);
+  --glass-border: rgba(42, 36, 31, 0.12);
+  --glass-gold-background: rgba(255, 253, 248, 0.85);
+  --glass-gold-border: rgba(166, 124, 82, 0.25);
+  --glow-opacity: 0.15;
+}
+
+.theme-mono {
+  /* Monochrome Mode */
+  --bg-primary: #000000;
+  --bg-secondary: #111111;
+  --bg-tertiary: #1C1C1C;
+  --text-primary: #FFFFFF;
+  --text-secondary: #8E8E93;
+  --accent-gold: #AEAEB2;
+  --accent-cyan: #8E8E93;
+  --accent-emerald: #AEAEB2;
+  --border-subtle: rgba(255, 255, 255, 0.12);
+  --glass-background: rgba(18, 18, 18, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-gold-background: rgba(18, 18, 18, 0.9);
+  --glass-gold-border: rgba(255, 255, 255, 0.18);
+  --glow-opacity: 0;
+}
+
+/* Custom background glow, noise overlay, and scrollbar effects */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Elite transition system for colors, borders, and shadows to assure Apple-level silkiness */
+.theme-container {
+  min-height: 100/100;
+  transition: background-color 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+              color 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+              border-color 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.theme-container *,
+.theme-container *:before,
+.theme-container *:after {
+  transition: background-color 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+              color 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+              border-color 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+              backdrop-filter 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Typography Overrides tailored for Reading Mode - keeping font-serif of Dark Mode */
+.theme-reading p {
+  line-height: 1.85;
+  font-size: 1.05rem;
+}
+.theme-reading li p {
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+/* Swiss minimalist behavior in Monochrome Mode - keeping same fonts of Dark Mode */
+.theme-mono * {
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+.theme-mono .animate-pulse {
+  animation: none !important;
+}
+
+/* Elite Glassmorphism style helper */
+.glass-panel {
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  background: var(--glass-background);
+  border: 1px solid var(--border-subtle);
+}
+
+.glass-panel-gold {
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  background: var(--glass-gold-background);
+  border: 1px solid var(--glass-gold-border);
+}
+
+/* Subtle vignette effect */
+.vignette-overlay {
+  background: radial-gradient(circle at center, transparent 30%, rgba(11, 15, 20, 0.95) 100%);
+  pointer-events: none;
+}
+.theme-reading .vignette-overlay {
+  background: radial-gradient(circle at center, transparent 40%, rgba(244, 239, 230, 0.3) 100%);
+}
+.theme-mono .vignette-overlay {
+  background: none;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}

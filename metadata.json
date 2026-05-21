@@ -1,0 +1,6 @@
+{
+  "name": "AI Study Helper",
+  "description": "A premium study assistant that transforms pasted notes into explanations, revision guides, questions, and key concepts using Gemini AI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
