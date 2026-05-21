@@ -3,8 +3,20 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
+import http from "http";
+import https from "https";
 
 dotenv.config();
+
+// Helper to perform the self-ping safely
+function pingService(url: string) {
+  const client = url.startsWith("https") ? https : http;
+  client.get(url, (res) => {
+    console.log(`[Keep-Warm] Self-ping successful! Status code: ${res.statusCode}`);
+  }).on("error", (err) => {
+    console.error("[Keep-Warm] Error during self-ping warmup:", err.message);
+  });
+}
 
 async function startServer() {
   const app = express();
@@ -25,6 +37,11 @@ async function startServer() {
         },
       })
     : null;
+
+  // Endpoint to check server status and keep it warm
+  app.get("/api/ping", (req, res) => {
+    res.json({ status: "alive", timestamp: new Date().toISOString() });
+  });
 
   // Endpoint to generate explanation, notes, questions, concepts
   app.post("/api/generate", async (req, res) => {
@@ -123,6 +140,19 @@ async function startServer() {
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server launched successfully on port ${PORT}`);
+
+    // Auto Keep-Warm Self-Pinger for Render Free Tier
+    const externalUrl = process.env.RENDER_EXTERNAL_URL;
+    if (externalUrl) {
+      console.log(`[Keep-Warm] Initializing self-pinger task for ${externalUrl}`);
+      // Send a warm up request every 10 minutes to prevent container sleep
+      const TEN_MINUTES = 10 * 60 * 1000;
+      setInterval(() => {
+        pingService(`${externalUrl}/api/ping`);
+      }, TEN_MINUTES);
+    } else {
+      console.log("[Keep-Warm] RENDER_EXTERNAL_URL env is not set. Specify your deployment URL in Render to activate auto self-pinger.");
+    }
   });
 }
 
